@@ -1,0 +1,99 @@
+version: '3.7'
+services:
+  phpfpm:
+    build: ./docker/build/dockergento/phpfpm-7.3/
+    volumes: &appvolumes
+      - sockdata:/sock
+      - ./workspace:/var/www/html
+      - ../.composer:/var/www/.composer:delegated
+      - ./config/dockergento/nginx/conf/default.conf:/var/www/conf/nginx/default.conf:delegated
+      - ./docker/data/integration/SOH/:/DATA/SOH/
+      - ./docker/data/integration/MDM/:/DATA/MDM/
+      - ./docker/data/integration/MOM/:/DATA/MOM/
+      - ./docker/data/integration/EDI/:/DATA/EDI2/
+    depends_on:
+      - redis
+      - rabbitmq
+      - mysql
+      - mailhog
+    environment:
+      PHP_IDE_CONFIG: serverName=tal.loc
+      BASE_URL: http://tal.loc/
+      MAGE_DB_NAME: magento
+      MAGE_DB_USER: magento
+      MAGE_DB_PASS: magento
+      MAGE_DB_HOST: mysql
+      MAGE_LANG: en_US
+      MAGE_TIMEZONE: America/Los_Angeles
+      MAGE_CURRENCY: USD
+      MAGE_ADMIN_USER: local-admin
+      MAGE_ADMIN_PASS: 1234qwe
+      MAGE_ADMIN_EMAIL: local-admin@gmail.com
+      MAGE_MQ_USER: admin
+      MAGE_MQ_PASS: admin
+      MAGE_MQ_HOST: rabbitmq
+      MAGE_MQ_PORT: 5672
+      MAGE_MQ_VHOST: /
+      MAGE_REDIS_HOST: redis
+      MAGE_REDIS_PORT: 6379
+      MAGE_REDIS_SESS_DB: 0
+      MAGE_REDIS_FCACHE_DB: 1
+      MAGE_REDIS_PCACHE_DB: 1
+
+  mysql:
+    build: ./docker/build/dockergento/mysql/
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: magento
+      MYSQL_USER: magento
+      MYSQL_PASSWORD: magento
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command: [
+      mysqld,
+      --innodb_buffer_pool_size=1G,
+      --innodb_log_files_in_group=8,
+      --innodb_log_file_size=128M,
+      --max_connections=256,
+      --innodb_log_buffer_size=64M,
+      --read_buffer_size=64M
+      --max_allowed_packet=256M
+    ]
+
+  nginx:
+    build: ./docker/build/dockergento/nginx/
+    ports:
+      - 80:8000
+    volumes: *appvolumes
+    depends_on:
+      - phpfpm
+
+  redis:
+    build: ./docker/build/dockergento/redis6
+    volumes:
+      - redis_data1:/data
+
+  rabbitmq:
+    hostname: mage
+    build: ./docker/build/rabbitmq/
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    ports:
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+      ERLANG_COOKIE: ugvaKs5uUOerek2m0lru
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - 1025:1025
+      - 8025:8025
+volumes:
+  mysql_data:
+  redis_data1:
+  rabbitmq_data:
+  sockdata:
