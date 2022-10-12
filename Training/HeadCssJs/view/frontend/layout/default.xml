@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <head>
+    <css src="Training_HeadCssJs::css/default.css"></css>
+    <script src="Training_HeadCssJs::js/default.js"></script>
+    </head>
+</page>
