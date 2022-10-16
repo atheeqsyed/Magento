@@ -22,6 +22,5 @@ class Index implements ActionInterface
        $page = $this->pageFactory->create();
        $page->getConfig()->getTitle()->set('Dependency Injection In Magento');
        return $page;
-
     }
 }
