@@ -1,2 +1,2 @@
-<p> Magento2
+<p> Mage2
 Learning</p>
