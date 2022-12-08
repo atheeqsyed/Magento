@@ -40,8 +40,8 @@ class UpgradeData implements UpgradeDataInterface
     public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
     {
         $setup->startSetup();
-
-        if (version_compare($context->getVersion(), '1.0.1', '<')) {
+    // Checked with all versions.
+        if (version_compare($context->getVersion(), '1.0.0', '<')) {
             /** @var EavSetup $eavSetup */
             $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
 
