@@ -31,7 +31,7 @@ class UpgradeData implements UpgradeDataInterface
     }
 
     /**
-     * Upgrade data for a module
+     * Upgrade data for module
      *
      * @param ModuleDataSetupInterface $setup
      * @param ModuleContextInterface $context
