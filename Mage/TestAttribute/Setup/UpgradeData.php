@@ -16,6 +16,7 @@ class UpgradeData implements UpgradeDataInterface
     /**
      * EAV setup factory
      *
+     *
      * @var EavSetupFactory
      */
     private $eavSetupFactory;
