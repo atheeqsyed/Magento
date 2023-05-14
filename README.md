@@ -1,1 +1,1 @@
-<p> Magento_Learning </p>
+<p> Magento Learning </p>
