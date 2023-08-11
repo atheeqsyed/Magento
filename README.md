@@ -1,1 +1,1 @@
-<p> Mageo Learning Tutorial </p>
+<p> Magento Learning Tutorial </p>
