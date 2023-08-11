@@ -3,5 +3,4 @@
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
     'Magetv_Example',
     __DIR__
-    
 );
