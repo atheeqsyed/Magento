@@ -1,6 +1,5 @@
 <?php
 namespace Pattern\Designs\Model;
-
 use Magento\Framework\Model\AbstractModel;
 use Magento\Customer\Model\AddressFactory;
 
